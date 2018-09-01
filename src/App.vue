@@ -1,28 +1,17 @@
 <template>
     <div id="app">
-        <img src="./assets/logo.png">
-        <div>child told me : {{message}}</div>
-        <HelloWorld v-on:child-call-me="doSomething"></HelloWorld>
-        <div id='example-3'>
-            <input type="checkbox" id="jack" value="444" v-model="checkedNames">
-            <label for="jack">Jack</label>
-            <input type="checkbox" id="john" value="John" v-model="checkedNames">
-            <label for="john">John</label>
-            <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
-            <label for="mike">Mike</label>
-            <br>
-            <span>Checked names: {{ checkedNames }}</span>
-        </div>
-        <input v-model.number="age" type="number"><br>
-        <transition name="fade" model="out-in">
-            <div v-if="shows">我是div1</div>
-        </transition>
-        <button @click="shows=!shows">点我切换div</button>
+        <div class="back_mask"></div>
+        <Header></Header>
+        <my-learn-plan></my-learn-plan>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
     import HelloWorld from './components/HelloWorld'
+    import Header from './components/MyLearn/Header'
+    import Footer from './components/MyLearn/Footer'
+    import MyLearnPlan from './components/MyLearn/MyLearnPlan'
 
     export default {
         name: 'App',
@@ -36,7 +25,10 @@
             }
         },
         components: {
-            HelloWorld
+            HelloWorld,
+            Header,
+            Footer,
+            MyLearnPlan
         },
         methods: {
             doSomething(msg) {
@@ -50,15 +42,23 @@
 </script>
 
 <style>
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
-    }
-    .flip-list-move {
-        transition: transform 1s;
-    }
+@import "style/_common.scss";
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+}
+.back_mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #999999;
+    opacity: .9;
+    z-index: -1;
+}
 </style>
