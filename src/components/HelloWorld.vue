@@ -1,113 +1,64 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
+  <div class="Hello">
+    <div v-text="msg"></div>
+    <input v-model="newItem" @keyup.enter="addNewItem"/>
     <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
+      <li v-for="item in items" :class="['default_class', {other_color: item.isFinished}]" @click="toggleFinish(item)">
+        {{item.label}}
       </li>
     </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+    <button @click="callFather">click me</button>
   </div>
 </template>
 
 <script>
+import store from  '../common/store'
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'this is a todo list',
+      items: store.fetch(),
+      newItem: ''
     }
+  },
+  events: {
+      'my-child' : function (msg) {
+          console.log(msg)
+      }
+  },
+  methods: {
+      toggleFinish (item) {
+          item.isFinished = !item.isFinished
+      },
+      addNewItem () {
+          this.items.push({
+              label: this.newItem,
+              isFinished: false
+          })
+          this.newItem = ''
+      },
+      callFather () {
+         this.$emit('child-call-me', 'are you ok??')
+      }
+  },
+  watch: {
+      items : {
+          handler (items) {
+              store.save(items)
+          },
+          deep: true
+      }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style >
+  .default_class {
+    cursor: pointer;
+  }
+  .other_color {
+    color: #3180dd;
+  }
 </style>
