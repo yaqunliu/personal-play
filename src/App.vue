@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <div class="back_mask">hfjakfhjak</div>
+        <div class="back_mask">hfjakfhjak奋斗奋斗</div>
         <Header></Header>
         <my-learn-plan></my-learn-plan>
         <Footer></Footer>
